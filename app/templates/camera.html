@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="text-center">
+    <h2 class="mb-3">📷 Live Camera Capture</h2>
+    <p class="text-muted">Press <b>SPACE</b> to capture image and generate cartoon avatar</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <!-- Camera Card -->
+        <div class="card p-3 text-center">
+
+            <video id="video" autoplay playsinline class="w-100 rounded"></video>
+
+            <div class="mt-3">
+                <button class="btn btn-warning" onclick="captureImage()">
+                    Capture Image
+                </button>
+                <a href="/dashboard" class="btn btn-secondary ms-2">
+                    Back
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Output Preview -->
+        <div class="card p-3 mt-4 text-center">
+            <h5>Captured Result</h5>
+            <img id="preview" class="img-fluid mt-2" style="display:none;">
+        </div>
+
+    </div>
+</div>
+
+<script src="/static/camera.js"></script>
+
+<script>
+function captureImage() {
+    const video = document.getElementById("video");
+
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0);
+
+    const image = canvas.toDataURL("image/png");
+
+    fetch("/capture", {
+        method: "POST",
+        body: JSON.stringify({ image: image }),
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("preview").src = "/static/outputs/cam.png?" + new Date().getTime();
+        document.getElementById("preview").style.display = "block";
+    });
+}
+</script>
+
+{% endblock %}

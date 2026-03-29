@@ -1,0 +1,19 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0f172a;
+    color: white;
+}
+
+.card {
+    border-radius: 15px;
+    background: #1e293b;
+}
+
+.btn-primary {
+    background: #6366f1;
+    border: none;
+}
+
+img {
+    border-radius: 10px;
+}

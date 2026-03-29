@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<form method="POST" enctype="multipart/form-data" class="card p-3">
+
+    <input type="file" name="image" class="form-control mb-2">
+
+    <!-- 🎨 FILTER SELECT -->
+    <select name="filter" class="form-select mb-3">
+        <option value="cartoon">Cartoon</option>
+        <option value="pencil">Pencil Sketch</option>
+        <option value="detail">Detail Enhance</option>
+        <option value="edge">Edge Detection</option>
+    </select>
+
+    <button class="btn btn-primary">Apply Filter</button>
+
+</form>
+
+<a href="/video" class="btn btn-warning mt-3">Live Filters</a>
+
+<h3 class="mt-4">Your Images</h3>
+
+<h3 class="mt-4">Your History</h3>
+
+<div class="row">
+{% for img in images %}
+<div class="col-md-3">
+
+    <img src="/static/outputs/{{img.filename}}" class="img-fluid">
+
+    <p class="text-center mt-2">
+        🎨 {{ img.filter_used }}
+    </p>
+
+    <a href="/static/outputs/{{img.filename}}" download class="btn btn-success w-100">
+        Download
+    </a>
+
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}
